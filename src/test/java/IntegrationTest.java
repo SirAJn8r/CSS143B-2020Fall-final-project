@@ -32,6 +32,15 @@ public class IntegrationTest {
             );
             assertEquals(testCase.expect, actual);
         }
+
+        cases = getMyTestCase();
+        for (TestCase testCase : cases) {
+            List<Integer> actual = searcher.search(
+                    testCase.target,
+                    indexer.index(testCase.documents)
+            );
+            assertEquals(testCase.expect, actual);
+        }
     }
 
     private List<TestCase> getTestCase() {
@@ -102,6 +111,51 @@ public class IntegrationTest {
                         documents,
                         "is awesome",
                         new ArrayList<>(Arrays.asList(7))
+                )
+        ));
+
+        return testCases;
+    }
+
+    private List<TestCase> getMyTestCase()
+    {
+        List<String> newDocs = new ArrayList<>(Arrays.asList(
+                "what do you do with a drunken sailor",
+                "how do you catch a snake",
+                "you send the drunken sailor to catch the snake",
+                "nobody knows how the snake got onto the boat"
+        ));
+
+        List<TestCase> testCases = new ArrayList<>(Arrays.asList(
+                new TestCase(
+                        newDocs,
+                        "drunken sailor",
+                        new ArrayList<>(Arrays.asList(0, 2))
+                ),
+                new TestCase(
+                        newDocs,
+                        "do",
+                        new ArrayList<>(Arrays.asList(0, 1))
+                ),
+                new TestCase(
+                        newDocs,
+                        "the",
+                        new ArrayList<>(Arrays.asList(2, 3))
+                ),
+                new TestCase(
+                        newDocs,
+                        "catch snake",
+                        new ArrayList<>(Util.emptyResult())
+                ),
+                new TestCase(
+                        newDocs,
+                        "how",
+                        new ArrayList<>(Arrays.asList(1, 3))
+                ),
+                new TestCase(
+                        newDocs,
+                        "now",
+                        new ArrayList<>(Util.emptyResult())
                 )
         ));
 
